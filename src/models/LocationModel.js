@@ -1,4 +1,20 @@
-const Location = sequelize.define('Location', {
+'use strict';
+const {
+  Model, Sequelize
+} = require('sequelize');
+
+module.exports = (sequelize, DataTypes) => {
+  class Location extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // define association here
+    }
+  }
+  Location.init({
     id: {
       type: Sequelize.UUID,
       defaultValue: Sequelize.UUIDV4,
@@ -29,8 +45,9 @@ const Location = sequelize.define('Location', {
       defaultValue: DataTypes.NOW,
     }
   }, {
-    timestamps: false
+    sequelize,
+    modelName: 'Location',
+    timestamps: false,
   });
-  
-  module.exports = Location;
-  
+  return Location;
+};
