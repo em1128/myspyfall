@@ -33,5 +33,25 @@ class UserController{
         }
     }
 
+    updateUser = async (req, res, next) => {
+        try{
+            const body = req.body;
+            const user = Utils.getColList(body, UserCol);
+            const result = await UserService.updateUser(user);
+            return res.json({ success: true, message: `Update User Success!`});
+        }catch(err){
+            console.log('error : ' + err);
+        }
+    }
+    removeUser = async (req, res, next) => {
+        try{
+            const userId = req.params.userId;
+            const result = await UserService.removeUser(userId);
+            return res.json({ success: true, message: `Remove User Success!`});
+        }catch(err){
+            console.log('error : ' + err);
+        }
+    }
+
 }
 module.exports = new UserController();
