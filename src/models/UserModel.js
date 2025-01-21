@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   User.init({
-    id: {
+    uuidid: {
       type: Sequelize.UUID,
       defaultValue: Sequelize.UUIDV4,
       primaryKey: true,
@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    email: {
+    id: {
       type: DataTypes.STRING,
       unique: true,
       allowNull: false,
@@ -33,14 +33,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    created_at: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-    }
   }, {
     sequelize,
     modelName: 'User',
-    timestamps: false,
+    timestamps: true,
   });
   return User;
 };
