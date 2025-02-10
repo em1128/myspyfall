@@ -7,37 +7,70 @@
 </head>
 <body>
     <h1>WebSocket 테스트 클라이언트</h1>
-    <button onclick="sendMessage()">서버에 메시지 보내기</button>
+    <button onclick="createRoom()">방 만들기</button>
+    <button onclick="joinRoom()">방 참가</button>
+    <button onclick="ready()">준비 완료</button>
     <pre id="log"></pre>
 
     <script>
         const ws = new WebSocket('ws://localhost:3000'); // WebSocket 서버 주소
         const log = document.getElementById('log');
+        let roomId = null;
 
         ws.onopen = () => {
-            log.textContent += '✅ WebSocket 연결 성공\n';
-            ws.send('안녕, 서버야! 👋'); // 서버로 메시지 전송
+            logMessage('✅ WebSocket 연결 성공');
         };
 
         ws.onmessage = (event) => {
-            log.textContent += '📩 서버 응답: ' + event.data + '\n';
+            const data = JSON.parse(event.data);
+            logMessage(`📩 서버 응답: ${event.data}`);
+
+            if (data.type === 'roomCreated') {
+                roomId = data.roomId;
+                logMessage(`🏠 방 생성 완료! ID: ${roomId}`);
+            } else if (data.type === 'roomJoined') {
+                roomId = data.roomId;
+                logMessage(`👥 방 참가 완료! ID: ${roomId}`);
+            } else if (data.type === 'gameStart') {
+                logMessage('🚀 게임이 시작되었습니다!');
+            }
         };
 
         ws.onclose = () => {
-            log.textContent += '❌ WebSocket 연결 종료\n';
+            logMessage('❌ WebSocket 연결 종료');
         };
 
         ws.onerror = (error) => {
-            log.textContent += '⚠️ WebSocket 오류 발생\n';
+            logMessage('⚠️ WebSocket 오류 발생');
             console.error(error);
         };
 
-        function sendMessage() {
+        function createRoom() {
             if (ws.readyState === WebSocket.OPEN) {
-                ws.send('사용자가 버튼을 눌러 메시지를 보냈어요!');
+                ws.send(JSON.stringify({ type: 'createRoom' }));
             } else {
-                log.textContent += '⚠️ WebSocket이 연결되지 않음\n';
+                logMessage('⚠️ WebSocket이 연결되지 않음');
             }
+        }
+
+        function joinRoom() {
+            if (roomId) {
+                ws.send(JSON.stringify({ type: 'joinRoom', roomId }));
+            } else {
+                logMessage('⚠️ 먼저 방을 생성하거나, 존재하는 방 ID를 입력하세요.');
+            }
+        }
+
+        function ready() {
+            if (roomId) {
+                ws.send(JSON.stringify({ type: 'ready', roomId }));
+            } else {
+                logMessage('⚠️ 방에 참가해야 준비 완료를 보낼 수 있습니다.');
+            }
+        }
+
+        function logMessage(message) {
+            log.textContent += message + '\n';
         }
     </script>
 </body>
