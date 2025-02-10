@@ -1,4 +1,5 @@
 const express = require('express');
+const morgan = require('morgan');
 const sequelize = require('../dbconnection');  // 데이터베이스 연결 파일 로드
 const apiRouter = require('./routes/routes');
 const dotenv = require('dotenv'); // .env 파일에서 환경 변수 로드
@@ -11,6 +12,7 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
+app.use(morgan('dev'));
 app.use(express.json()); // JSON 요청을 처리할 수 있도록 설정
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
