@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket 테스트</title>
+</head>
+<body>
+    <h1>WebSocket 테스트 클라이언트</h1>
+    <button onclick="sendMessage()">서버에 메시지 보내기</button>
+    <pre id="log"></pre>
+
+    <script>
+        const ws = new WebSocket('ws://localhost:3000'); // WebSocket 서버 주소
+        const log = document.getElementById('log');
+
+        ws.onopen = () => {
+            log.textContent += '✅ WebSocket 연결 성공\n';
+            ws.send('안녕, 서버야! 👋'); // 서버로 메시지 전송
+        };
+
+        ws.onmessage = (event) => {
+            log.textContent += '📩 서버 응답: ' + event.data + '\n';
+        };
+
+        ws.onclose = () => {
+            log.textContent += '❌ WebSocket 연결 종료\n';
+        };
+
+        ws.onerror = (error) => {
+            log.textContent += '⚠️ WebSocket 오류 발생\n';
+            console.error(error);
+        };
+
+        function sendMessage() {
+            if (ws.readyState === WebSocket.OPEN) {
+                ws.send('사용자가 버튼을 눌러 메시지를 보냈어요!');
+            } else {
+                log.textContent += '⚠️ WebSocket이 연결되지 않음\n';
+            }
+        }
+    </script>
+</body>
+</html>
