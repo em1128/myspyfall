@@ -11,6 +11,7 @@ const apiRouter = require('./routes/routes');
 const dotenv = require('dotenv'); // .env 파일에서 환경 변수 로드
 const cookieParser = require('cookie-parser');
 
+dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
