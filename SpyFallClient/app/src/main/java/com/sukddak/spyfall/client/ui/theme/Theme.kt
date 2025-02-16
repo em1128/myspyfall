@@ -1,6 +1,5 @@
-package com.sukddak.spyfall.calient.ui.theme
+package com.sukddak.spyfall.client.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

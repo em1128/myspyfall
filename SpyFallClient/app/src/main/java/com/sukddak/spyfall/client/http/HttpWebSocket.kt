@@ -1,4 +1,4 @@
-package com.sukddak.spyfall.calient.http
+package com.sukddak.spyfall.client.http
 
 import android.util.Log
 import okhttp3.Request
@@ -56,23 +56,6 @@ class HttpWebSocket {
             onConnectionFailed?.invoke(t)
         }
     }
-
-//    private val listener: WebSocketListener = object : WebSocketListener() {
-//
-//        override fun onMessage(webSocket: WebSocket, text: String) {
-//            super.onMessage(webSocket, text)
-//            Log.d(TAG, "내가 보낸 TEXT 데이터 : $text")
-//            if (text.contains("Request served by")) {
-//                CoroutineScope(Dispatchers.Main).launch {
-//                    Toast.makeText(appContext, "연결 성공!", Toast.LENGTH_SHORT).show()
-//                }
-//            } else {
-//                CoroutineScope(Dispatchers.Main).launch {
-//                    Toast.makeText(appContext, "onMessage : $text", Toast.LENGTH_SHORT).show()
-//                }
-//            }
-//        }
-//    }
 
     fun connect(url: String) {
         try {
