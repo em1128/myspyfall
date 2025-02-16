@@ -1,4 +1,4 @@
-package com.sukddak.spyfall.client
+package com.sukddak.spyfall.calient
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.sukddak.spyfall.client", appContext.packageName)
+        assertEquals("com.sukddak.spyfall.calient", appContext.packageName)
     }
 }
