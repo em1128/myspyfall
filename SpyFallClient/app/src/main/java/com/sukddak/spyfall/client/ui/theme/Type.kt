@@ -1,4 +1,4 @@
-package com.sukddak.spyfall.calient.ui.theme
+package com.sukddak.spyfall.client.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

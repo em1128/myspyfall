@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.sukddak.spyfall.calient"
+    namespace = "com.sukddak.spyfall.client"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.sukddak.spyfall.calient"
+        applicationId = "com.sukddak.spyfall.client"
         minSdk = 28
         targetSdk = 35
         versionCode = 1

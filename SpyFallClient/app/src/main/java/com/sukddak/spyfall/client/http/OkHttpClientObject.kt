@@ -1,4 +1,4 @@
-package com.sukddak.spyfall.calient.http
+package com.sukddak.spyfall.client.http
 
 
 import okhttp3.OkHttpClient

@@ -1,4 +1,4 @@
-package com.sukddak.spyfall.calient
+package com.sukddak.spyfall.client
 
 import org.junit.Test
 
