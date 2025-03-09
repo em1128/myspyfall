@@ -1,4 +1,4 @@
-const roomManager = require('../roomManager');
+const roomManager = require('./roomManager');
 
 function handleClose(ws) {
     if (!ws.roomId) return;
