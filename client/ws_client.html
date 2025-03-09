@@ -7,6 +7,11 @@
 </head>
 <body>
     <h1>WebSocket 테스트 클라이언트</h1>
+    <label for="nickname">닉네임 : </label>
+    <input type="text" name="nickname" id="nickname">
+
+    <button onclick="connect()">서버 접속</button>
+    <h1></h1>
     <button onclick="createRoom()">방 만들기</button>
     <button onclick="joinRoom()">방 참가</button>
     <button onclick="ready()">준비 완료</button>
@@ -16,6 +21,7 @@
         const ws = new WebSocket('ws://mkmc.duckdns.org:8082'); // WebSocket 서버 주소
         const log = document.getElementById('log');
         let roomId = null;
+        let nickname = null;
 
         ws.onopen = () => {
             logMessage('✅ WebSocket 연결 성공');
@@ -24,9 +30,13 @@
         ws.onmessage = (event) => {
             const data = JSON.parse(event.data);
             logMessage(`📩 서버 응답: ${event.data}`);
-
-            if (data.type === 'roomCreated') {
+            if (data.type === 'connect'){
+                userId = data.userId;
+                console.log(typeof userId);
+                logMessage(`📱 서버 접속!`);
+            } else if (data.type === 'roomCreated') {
                 roomId = data.roomId;
+                console.log(typeof roomId);
                 logMessage(`🏠 방 생성 완료! ID: ${roomId}`);
             } else if (data.type === 'roomJoined') {
                 roomId = data.roomId;
@@ -44,6 +54,20 @@
             logMessage('⚠️ WebSocket 오류 발생');
             console.error(error);
         };
+        
+        function connect() {
+            if (ws.readyState === WebSocket.OPEN) {
+                let nickname = document.getElementById('nickname');
+                nickname = nickname.value;
+                if (nickname) {
+                    ws.send(JSON.stringify({ type: 'connect', nickname }));
+                } else {
+                    logMessage('⚠️ 닉네임을 입력하세요.');
+                }
+            } else {
+                logMessage('⚠️ WebSocket이 연결되지 않음');
+            }
+        }
 
         function createRoom() {
             if (ws.readyState === WebSocket.OPEN) {

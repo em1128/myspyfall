@@ -3,7 +3,13 @@ const roomManager = require('../roomManager');
 function handleMessage(ws, message) {
     try{
         const data = JSON.parse(message);
-        console.log('roomManager.rooms: ', roomManager.rooms);
+        
+        if(data.type === 'connect'){
+            const userId = roomManager.connect(ws, data.nickname);
+            ws.send(JSON.stringify({ type: 'connect', userId, nickname: data.nickname }));
+            console.log(`🎉 서버 접속 : ${data.nickname}(${userId})`);
+        }
+
         if (data.type === 'createRoom') {
             const roomId = roomManager.createRoom(ws);
             ws.send(JSON.stringify({ type: 'roomCreated', roomId }));
@@ -28,7 +34,7 @@ function handleMessage(ws, message) {
             }
         }
     }catch(e){
-        console.error('메시지가 올바르지 않습니다.');
+        console.error(e.message);
         ws.send(JSON.stringify({ type: 'error', message: `메시지 형식이 올바르지 않습니다.(${message}` }));
     }
     

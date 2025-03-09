@@ -3,8 +3,16 @@ const { v4: uuidv4 } = require('uuid');
 class RoomManager {
     constructor() {
         this.rooms = new Map();
+        this.users = new Map();
     }
 
+    connect(ws, nickname){
+        const userId = uuidv4();
+        // 여기서 웹소켓 객체는 사용자의 연결을 기억하기 위해 저장.
+        // => 특정 사용자들에게 메시지를 전송할 때 필요하므로 저장하는 것.
+        this.users[userId] = { nickname: nickname, ws};
+        return userId;
+    }
     createRoom(ws) {
         const roomId = uuidv4();
         this.rooms.set(roomId, { players: [], readyCount: 0 });
