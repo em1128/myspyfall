@@ -12,6 +12,8 @@
 
     <button onclick="connect()">서버 접속</button>
     <h1></h1>
+    <button onclick="getRoomList()">방 목록</button>
+    <h1></h1>
     <button onclick="createRoom()">방 만들기</button>
     <button onclick="joinRoom()">방 참가</button>
     <button onclick="ready()">준비 완료</button>
@@ -93,6 +95,9 @@
             }
         }
 
+        function getRoomList(){
+            ws.send(JSON.stringify(({ type: 'roomList'})))
+        }
         function logMessage(message) {
             log.textContent += message + '\n';
         }

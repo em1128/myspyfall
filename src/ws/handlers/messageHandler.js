@@ -33,6 +33,17 @@ function handleMessage(ws, message) {
                 console.log(`🚀 게임 시작! 방: ${data.roomId}`);
             }
         }
+        
+        if (data.type === 'roomList') {
+            const rooms = roomManager.getRoomList() || [];
+            
+            if(rooms.length){
+                ws.send(JSON.stringify({ type: 'roomList', rooms}));
+                console.log(`📜 방 목록! 방: ${rooms}`);
+            }else{
+                ws.send(JSON.stringify({ type: 'error', message: '비어있는 방이 존재하지 않습니다.'}))
+            }
+        }
     }catch(e){
         console.error(e.message);
         ws.send(JSON.stringify({ type: 'error', message: `메시지 형식이 올바르지 않습니다.(${message}` }));

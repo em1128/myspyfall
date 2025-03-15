@@ -56,6 +56,19 @@ class RoomManager {
 
         return false;
     }
+
+    getRoomList(){
+        const keysToExclude = ['players'];
+        const roomArray = Array.from(this.rooms, ([roomId, value]) => {
+            // 🔥 새로운 객체를 만들면서 특정 키를 제외
+            const filteredValue = { ...value };
+            keysToExclude.forEach(key => delete filteredValue[key]); 
+            // roomId를 객체에 필드로 추가가
+            return { roomId, ...filteredValue };
+        });
+        console.log('roomArray: ', roomArray);
+        return roomArray;
+    }
 }
 
 module.exports = new RoomManager();

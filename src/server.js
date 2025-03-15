@@ -1,8 +1,8 @@
 const express = require('express');
 const WebSocket = require('ws');
 const { v4: uuidv4 } = require('uuid');
-const handleMessage = require('./handlers/messageHandler');
-const handleClose = require('./handlers/closeHandler');
+const handleMessage = require('./ws/handlers/messageHandler');
+const handleClose = require('./ws/handlers/closeHandler');
 
 const http = require('http');
 const morgan = require('morgan');
