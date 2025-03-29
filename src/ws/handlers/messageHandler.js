@@ -15,6 +15,15 @@ function handleMessage(ws, message) {
             const roomId = roomManager.createRoom(ws, data.title, data.capacity);
             Response.CreateRoom(ws, roomId);
             console.log(`🔥 방 생성: ${roomId}`);
+            
+            const users = roomManager.users;
+            const rooms = roomManager.getRoomList() || [];
+            
+            for(const [userId, user] of users){
+                Response.RoomList(user.ws, rooms);
+            }
+            console.log(`📄 유저 목록: ${[...users.keys()]}`);
+            console.log(`♻️ 방 목록 갱신: ${[...roomManager.rooms.keys()]}`);
         }
 
         if (data.type === 'joinRoom') {
