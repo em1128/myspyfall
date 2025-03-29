@@ -12,7 +12,7 @@ function handleMessage(ws, message) {
         }
 
         if (data.type === 'createRoom') {
-            const roomId = roomManager.createRoom(ws);
+            const roomId = roomManager.createRoom(ws, data.title, data.capacity);
             Response.CreateRoom(ws, roomId);
             console.log(`🔥 방 생성: ${roomId}`);
         }

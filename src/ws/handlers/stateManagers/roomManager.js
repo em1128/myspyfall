@@ -13,9 +13,9 @@ class RoomManager {
         this.users.set(userId, { nickname: nickname, ws: ws});
         return userId;
     }
-    createRoom(ws) {
+    createRoom(ws, title, capacity) {
         const roomId = uuidv4();
-        this.rooms.set(roomId, { players: [], readyCount: 0 });
+        this.rooms.set(roomId, { players: [], host: ws, title, capacity, readyCount: 0 });
 
         ws.roomId = roomId;
         this.rooms.get(roomId).players.push(ws);

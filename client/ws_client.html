@@ -13,10 +13,16 @@
     <button onclick="connect()">서버 접속</button>
     <h1></h1>
     <button onclick="getRoomList()">방 목록</button>
-    <h1></h1>
-    <button onclick="createRoom()">방 만들기</button>
     <button onclick="joinRoom()">방 참가</button>
     <button onclick="ready()">준비 완료</button>
+    <h1></h1>
+    <div >
+        <button onclick="createRoom()">방 만들기</button>
+        <label for="roomTitle">방 제목 : </label>
+        <input type="text" name="roomTitle" id="roomTitle">
+        <label for="roomCap">방 최대 인원 수 : </label>
+        <input type="number" name="roomCap" id="roomCap" value="7" min="3" max="12">
+    </div>
     <pre id="log"></pre>
 
     <script>
@@ -24,6 +30,7 @@
         const log = document.getElementById('log');
         let roomId = null;
         let nickname = null;
+        let userId = null;
 
         ws.onopen = () => {
             logMessage('✅ WebSocket 연결 성공');
@@ -73,7 +80,7 @@
 
         function createRoom() {
             if (ws.readyState === WebSocket.OPEN) {
-                ws.send(JSON.stringify({ type: 'createRoom' }));
+                ws.send(JSON.stringify({ type: 'createRoom', userId, title: roomTitle.value, capacity: roomCap.value }));
             } else {
                 logMessage('⚠️ WebSocket이 연결되지 않음');
             }
