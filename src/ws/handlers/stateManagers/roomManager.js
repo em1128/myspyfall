@@ -10,7 +10,7 @@ class RoomManager {
         const userId = uuidv4();
         // 여기서 웹소켓 객체는 사용자의 연결을 기억하기 위해 저장.
         // => 특정 사용자들에게 메시지를 전송할 때 필요하므로 저장하는 것.
-        this.users[userId] = { nickname: nickname, ws};
+        this.users.set(userId, { nickname: nickname, ws: ws});
         return userId;
     }
     createRoom(ws) {
@@ -59,14 +59,13 @@ class RoomManager {
 
     getRoomList(){
         const keysToExclude = ['players'];
-        const roomArray = Array.from(this.rooms, ([roomId, value]) => {
+        const roomArray = Array.from(this.rooms, ([roomId, room]) => {
             // 🔥 새로운 객체를 만들면서 특정 키를 제외
-            const filteredValue = { ...value };
+            const filteredValue = { ...room };
             keysToExclude.forEach(key => delete filteredValue[key]); 
             // roomId를 객체에 필드로 추가가
             return { roomId, ...filteredValue };
         });
-        console.log('roomArray: ', roomArray);
         return roomArray;
     }
 }

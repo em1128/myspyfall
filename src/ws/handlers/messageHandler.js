@@ -24,6 +24,7 @@ function handleMessage(ws, message) {
                 console.log(`👥 유저 입장: ${data.roomId} (현재 ${room.players.length}명)`);
             } else {
                 Response.Error('방이 존재하지 않습니다.');
+                console.error('방이 존재하지 않습니다.');
             }
         }
 
@@ -38,11 +39,12 @@ function handleMessage(ws, message) {
         if (data.type === 'roomList') {
             const rooms = roomManager.getRoomList() || [];
             
-            if(rooms.length){
-                console.log(`📜 방 목록! 방: ${rooms}`);
+            if(rooms.length > 0){
                 Response.RoomList(ws, rooms);
+                console.log(`📄 방 목록! 방: ${[...roomManager.rooms.keys()]}`);
             }else{
                 Response.Error(ws, '비어있는 방이 존재하지 않습니다.');
+                console.error('비어있는 방이 존재하지 않습니다.');
             }
         }
     }catch(e){
