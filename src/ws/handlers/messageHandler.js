@@ -1,11 +1,16 @@
+const clientManager = require('./stateManagers/clientManager');
 const roomManager = require('./stateManagers/roomManager');
 const Response = require('./responseHandler');
+require('../redis/roomListSub');
+const { publishRoomListUpdate } = require('../redis/roomListPub');
 
 function handleMessage(ws, message) {
     try{
         const data = JSON.parse(message);
         
+        console.log('data : ' + JSON.stringify(data, null, 2));
         if(data.type === 'connect'){
+            clientManager.addClient(ws);
             const userId = roomManager.connect(ws, data.nickname);
             Response.Connect(ws, userId, data.nickname);
             console.log(`🎉 서버 접속 : ${data.nickname}(${userId})`);
@@ -18,10 +23,8 @@ function handleMessage(ws, message) {
             
             const users = roomManager.users;
             const rooms = roomManager.getRoomList() || [];
-            
-            for(const [userId, user] of users){
-                Response.RoomList(user.ws, rooms);
-            }
+            clientManager.unsubscribe(ws);
+            publishRoomListUpdate(rooms);
             console.log(`📄 유저 목록: ${[...users.keys()]}`);
             console.log(`♻️ 방 목록 갱신: ${[...roomManager.rooms.keys()]}`);
         }
@@ -31,6 +34,7 @@ function handleMessage(ws, message) {
             if (room) {
                 Response.JoinRoom(ws, data.roomId);
                 console.log(`👥 유저 입장: ${data.roomId} (현재 ${room.players.length}명)`);
+                clientManager.unsubscribe(ws);
             } else {
                 Response.Error('방이 존재하지 않습니다.');
                 console.error('방이 존재하지 않습니다.');
@@ -46,6 +50,7 @@ function handleMessage(ws, message) {
         }
         
         if (data.type === 'roomList') {
+            clientManager.subscribe(ws);
             const rooms = roomManager.getRoomList() || [];
             
             if(rooms.length > 0){

@@ -52,6 +52,16 @@
                 logMessage(`👥 방 참가 완료! ID: ${roomId}`);
             } else if (data.type === 'gameStart') {
                 logMessage('🚀 게임이 시작되었습니다!');
+            } else if(data.type === 'roomList'){
+                rooms = data.rooms;
+                logMessage('📜 방 목록 조회!');
+                for(const room of  rooms){
+                    logMessage(`방제목 : ${room.title}`);
+                    logMessage(`최대 유저 수 : ${room.capacity}`);
+                    logMessage(`현재 유저 수 : ${room.currentUsers}`);
+                    logMessage('');
+                }
+
             }
         };
 
