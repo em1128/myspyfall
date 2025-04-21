@@ -1,5 +1,5 @@
 const { createClient } = require('redis');
-const sub = createClient({ url: 'redis://localhost:6379' });
+const sub = createClient({ url: 'redis://redis:6379' });
 const { broadcast } = require('../handlers/stateManagers/clientManager');
 
 sub.connect();

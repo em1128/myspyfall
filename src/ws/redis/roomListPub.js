@@ -1,5 +1,5 @@
 const { createClient } = require('redis');
-const pub = createClient({ url: 'redis://localhost:6379' });
+const pub = createClient({ url: 'redis://redis:6379' });
 
 pub.connect();
 
