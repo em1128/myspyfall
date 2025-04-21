@@ -6,7 +6,7 @@ const handleClose = require('./ws/handlers/closeHandler');
 
 const http = require('http');
 const morgan = require('morgan');
-const sequelize = require('../dbconnection');  // 데이터베이스 연결 파일 로드
+const sequelize = require('../dbConnection');  // 데이터베이스 연결 파일 로드
 const apiRouter = require('./http/routes/routes');
 const dotenv = require('dotenv'); // .env 파일에서 환경 변수 로드
 const cookieParser = require('cookie-parser');
