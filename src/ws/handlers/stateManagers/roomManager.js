@@ -62,6 +62,7 @@ class RoomManager {
         const roomArray = Array.from(this.rooms, ([roomId, room]) => {
             // 🔥 새로운 객체를 만들면서 특정 키를 제외
             const filteredValue = { ...room };
+            room.currentUsers = room.players.length;
             keysToExclude.forEach(key => delete filteredValue[key]); 
             // roomId를 객체에 필드로 추가가
             return { roomId, ...filteredValue };
