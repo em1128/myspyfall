@@ -11,12 +11,28 @@ const apiRouter = require('./http/routes/routes');
 const dotenv = require('dotenv'); // .env 파일에서 환경 변수 로드
 const cookieParser = require('cookie-parser');
 
+const fs = require('fs');
+const path = require('path');
+
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
-  res.send('Hello World!');
+  // 임시로 ws_client.html을 랜딩 페이지로 사용(테스트용)
+  const filePath = path.join(__dirname, '..', 'client', 'ws_client.html');
+  console.log('filePath: ', filePath);
+  
+  fs.readFile(filePath, 'utf8', (err, data) => {
+    if (err) {
+      res.writeHead(500, { 'Content-Type': 'text/plain' });
+      res.end('Server Error');
+      return;
+    }
+
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.end(data);
+  });
 });
 
 app.use(morgan('dev'));
